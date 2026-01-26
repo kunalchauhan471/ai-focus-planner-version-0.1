@@ -4,38 +4,47 @@
 <meta charset="UTF-8">
 <title>Weekly Focus Planner</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* ENTRY GATE ONLY */
-.entry-gate{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+/* Entry Gate Styling */
+.entry-gate {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.entry-card{
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  backdrop-filter:blur(16px);
-  border-radius:20px;
-  padding:32px;
-  width:100%;
-  max-width:420px;
-  text-align:center;
+.entry-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
 }
-.entry-card h2{margin-bottom:12px}
-.entry-card input{
-  margin-top:12px;
+.entry-card h2 { margin-bottom: 12px; }
+.entry-card input, .entry-card textarea {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: #020617;
+  color: #fff;
 }
-.hidden{display:none}
+.entry-card button {
+  margin-top: 12px;
+  width: 100%;
+}
+.hidden { display: none; }
 </style>
 </head>
 
 <body>
 
-<!-- ENTRY GATE -->
+<!-- ================= ENTRY GATE ================= -->
 <div class="entry-gate" id="entryGate">
   <div class="entry-card">
     <h2>Welcome</h2>
@@ -48,19 +57,19 @@
 
     <div id="signup" class="hidden">
       <input id="name" placeholder="Your name">
-      <input id="intent" placeholder="Your intention">
+      <textarea id="intent" placeholder="Your intention"></textarea>
       <input id="pin" type="password" maxlength="4" placeholder="Create 4-digit PIN">
-      <button class="primary" onclick="signup()">Create</button>
+      <button class="primary" onclick="signup()">Create & Enter</button>
     </div>
 
     <div id="signin" class="hidden">
       <input id="loginPin" type="password" maxlength="4" placeholder="Enter PIN">
-      <button class="primary" onclick="signin()">Enter</button>
+      <button class="primary" onclick="signin()">Enter Planner</button>
     </div>
   </div>
 </div>
 
-<!-- PLANNER (UNCHANGED) -->
+<!-- ================= PLANNER ================= -->
 <div class="container hidden" id="plannerApp">
 
 <div class="progress"><div id="bar" class="progress-bar"></div></div>
