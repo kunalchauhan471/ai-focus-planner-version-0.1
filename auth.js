@@ -3,17 +3,27 @@
   const gate = document.getElementById("entryGate");
   const app = document.getElementById("plannerApp");
 
-  const stored = localStorage.getItem("userProfile");
+  const choiceBox = document.getElementById("choiceBox");
+  const newUserBox = document.getElementById("newUser");
+  const existingUserBox = document.getElementById("existingUser");
 
-  // If user already exists
-  if (stored) {
-    document.getElementById("firstTime").style.display = "none";
-    document.getElementById("returning").style.display = "block";
-    document.getElementById("gateTitle").innerText = "Welcome back";
-  }
+  // UI switches
+  window.showNew = () => {
+    choiceBox.style.display = "none";
+    newUserBox.style.display = "block";
+  };
 
-  // Create profile
-  window.createProfile = function () {
+  window.showExisting = () => {
+    if (!localStorage.getItem("userProfile")) {
+      alert("No existing user found on this device");
+      return;
+    }
+    choiceBox.style.display = "none";
+    existingUserBox.style.display = "block";
+  };
+
+  // NEW USER
+  window.createProfile = () => {
     const name = nameInput.value.trim();
     const intention = intentionInput.value.trim();
     const pin = pinCreate.value.trim();
@@ -24,7 +34,7 @@
     }
 
     const profile = {
-      userId: crypto.randomUUID(), // 🔑 REAL IDENTITY
+      userId: crypto.randomUUID(),   // REAL identity
       name,
       intention,
       pin,
@@ -32,24 +42,26 @@
     };
 
     localStorage.setItem("userProfile", JSON.stringify(profile));
-    unlock();
+    enterApp();
   };
 
-  // Unlock planner
-  window.unlock = function () {
+  // EXISTING USER
+  window.unlock = () => {
     const profile = JSON.parse(localStorage.getItem("userProfile"));
     if (!profile) return;
 
-    if (pinEnter.value !== profile.pin && pinCreate.value !== profile.pin) {
+    if (pinEnter.value !== profile.pin) {
       alert("Wrong PIN");
       return;
     }
 
+    enterApp();
+  };
+
+  function enterApp() {
     gate.style.display = "none";
     app.style.display = "block";
-
-    // Optional: greeting
-    console.log("User:", profile.name, profile.userId);
-  };
+    console.log("User:", JSON.parse(localStorage.getItem("userProfile")));
+  }
 
 })();
