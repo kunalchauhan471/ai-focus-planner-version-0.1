@@ -1,0 +1,123 @@
+:root{
+  --bg:#020617;
+  --card:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.18);
+  --primary:#38bdf8;
+  --text:#e5e7eb;
+}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui;
+  background:radial-gradient(circle at top,#0f172a,#020617);
+  color:var(--text);
+}
+
+.container{max-width:1000px;margin:auto;padding:40px 20px}
+
+.card{
+  background:var(--card);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:32px;
+}
+
+.slide{display:none}
+.slide.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:#020617;
+  border:1px solid var(--border);
+  color:white;
+  margin-top:6px;
+}
+
+button{
+  padding:12px 18px;
+  border-radius:14px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.primary{background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:black}
+.secondary{background:#020617;color:white;border:1px solid var(--border)}
+
+.progress{height:6px;background:rgba(255,255,255,.1);border-radius:10px;margin-bottom:24px}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#38bdf8,#22d3ee);transition:.3s}
+
+.goal-box,.task-box{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  margin-top:14px;
+  position:relative;
+}
+
+.color-bar{height:8px;border-radius:6px;background:#1e293b;margin:10px 0}
+
+.days{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.day{font-size:13px}
+
+.nav{display:flex;justify-content:space-between;margin-top:24px}
+
+.timetable{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:14px;
+  margin-top:20px;
+}
+
+.day-column{
+  background:rgba(0,0,0,.4);
+  border-radius:14px;
+  padding:12px;
+}
+
+.task{
+  font-size:13px;
+  padding:6px;
+  border-radius:6px;
+  margin-top:6px;
+}
+
+/* LEGEND */
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:12px;
+}
+
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--border);
+  padding:8px 12px;
+  border-radius:12px;
+  font-size:13px;
+}
+
+.legend-color{
+  width:14px;
+  height:14px;
+  border-radius:4px;
+}
+
+/* DELETE */
+.delete{
+  position:absolute;
+  top:10px;
+  right:12px;
+  cursor:pointer;
+  color:#f87171;
+  font-weight:700;
+}
