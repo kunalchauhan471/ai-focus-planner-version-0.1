@@ -1,72 +1,78 @@
-// ===================== DOM ELEMENTS =====================
-const entryGate = document.getElementById("entryGate");
-const plannerApp = document.getElementById("plannerApp");
+document.addEventListener("DOMContentLoaded", function() {
+  // ================= DOM ELEMENTS =================
+  const entryGate = document.getElementById("entryGate");
+  const plannerApp = document.getElementById("plannerApp");
 
-const choice = document.getElementById("choice");
-const signupDiv = document.getElementById("signup");
-const signinDiv = document.getElementById("signin");
+  const choice = document.getElementById("choice");
+  const signupDiv = document.getElementById("signup");
+  const signinDiv = document.getElementById("signin");
 
-const nameInput = document.getElementById("name");
-const intentInput = document.getElementById("intent");
-const pinInput = document.getElementById("pin");
-const loginPin = document.getElementById("loginPin");
+  const nameInput = document.getElementById("name");
+  const intentInput = document.getElementById("intent");
+  const pinInput = document.getElementById("pin");
+  const loginPin = document.getElementById("loginPin");
 
-// ===================== GLOBAL FUNCTIONS =====================
-// Expose to window so inline onclick works
-window.showSignup = function() {
-  choice.classList.add("hidden");
-  signupDiv.classList.remove("hidden");
-}
+  const btnNewUser = document.getElementById("btnNewUser");
+  const btnExistingUser = document.getElementById("btnExistingUser");
+  const btnSignup = document.getElementById("btnSignup");
+  const btnSignin = document.getElementById("btnSignin");
 
-window.showSignin = function() {
-  if (!localStorage.getItem("lastUser")) {
-    alert("No existing user found on this device");
-    return;
+  // ================= EVENTS =================
+  btnNewUser.addEventListener("click", () => {
+    choice.classList.add("hidden");
+    signupDiv.classList.remove("hidden");
+  });
+
+  btnExistingUser.addEventListener("click", () => {
+    if (!localStorage.getItem("lastUser")) {
+      alert("No existing user found on this device");
+      return;
+    }
+    choice.classList.add("hidden");
+    signinDiv.classList.remove("hidden");
+  });
+
+  btnSignup.addEventListener("click", () => {
+    const name = nameInput.value.trim();
+    const intent = intentInput.value.trim();
+    const pin = pinInput.value.trim();
+
+    if (!name || !intent || pin.length !== 4) {
+      alert("Fill all fields correctly and use a 4-digit PIN");
+      return;
+    }
+
+    const user = {
+      id: "U" + Date.now() + Math.floor(Math.random()*1000),
+      name,
+      intent,
+      pin,
+      createdAt: Date.now()
+    };
+
+    localStorage.setItem("focusUser_" + user.id, JSON.stringify(user));
+    localStorage.setItem("lastUser", user.id);
+
+    enterPlanner();
+  });
+
+  btnSignin.addEventListener("click", () => {
+    const pin = loginPin.value.trim();
+    const keys = Object.keys(localStorage).filter(k => k.startsWith("focusUser_"));
+    const foundKey = keys.find(k => JSON.parse(localStorage[k]).pin === pin);
+
+    if (!foundKey) return alert("Wrong PIN");
+
+    localStorage.setItem("lastUser", foundKey.replace("focusUser_", ""));
+    enterPlanner();
+  });
+
+  // ================= ENTER PLANNER =================
+  function enterPlanner() {
+    entryGate.classList.add("hidden");
+    plannerApp.classList.remove("hidden");
+
+    const user = JSON.parse(localStorage.getItem("focusUser_" + localStorage.getItem("lastUser")));
+    console.log("Current User:", user);
   }
-  choice.classList.add("hidden");
-  signinDiv.classList.remove("hidden");
-}
-
-window.signup = function() {
-  const name = nameInput.value.trim();
-  const intent = intentInput.value.trim();
-  const pin = pinInput.value.trim();
-
-  if (!name || !intent || pin.length !== 4) {
-    alert("Please fill all fields correctly and use a 4-digit PIN");
-    return;
-  }
-
-  const user = {
-    id: "U" + Date.now() + Math.floor(Math.random() * 1000),
-    name,
-    intent,
-    pin,
-    createdAt: Date.now()
-  };
-
-  localStorage.setItem("focusUser_" + user.id, JSON.stringify(user));
-  localStorage.setItem("lastUser", user.id);
-
-  enterApp();
-}
-
-window.signin = function() {
-  const pin = loginPin.value.trim();
-  const keys = Object.keys(localStorage).filter(k => k.startsWith("focusUser_"));
-  const foundKey = keys.find(k => JSON.parse(localStorage[k]).pin === pin);
-
-  if (!foundKey) return alert("Wrong PIN");
-
-  localStorage.setItem("lastUser", foundKey.replace("focusUser_", ""));
-  enterApp();
-}
-
-function enterApp() {
-  entryGate.classList.add("hidden");
-  plannerApp.classList.remove("hidden");
-
-  // Optional: show current user in console
-  const user = JSON.parse(localStorage.getItem("focusUser_" + localStorage.getItem("lastUser")));
-  console.log("Current User:", user);
-}
+});
