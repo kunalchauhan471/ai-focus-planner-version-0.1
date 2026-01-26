@@ -1,67 +1,35 @@
-(function () {
+function showSignup(){
+  choice.classList.add("hidden");
+  signup.classList.remove("hidden");
+}
 
-  const gate = document.getElementById("entryGate");
-  const app = document.getElementById("plannerApp");
+function showSignin(){
+  choice.classList.add("hidden");
+  signin.classList.remove("hidden");
+}
 
-  const choiceBox = document.getElementById("choiceBox");
-  const newUserBox = document.getElementById("newUser");
-  const existingUserBox = document.getElementById("existingUser");
-
-  // UI switches
-  window.showNew = () => {
-    choiceBox.style.display = "none";
-    newUserBox.style.display = "block";
+function signup(){
+  const user = {
+    id: "U" + Date.now() + Math.floor(Math.random()*1000),
+    name: name.value,
+    intent: intent.value,
+    pin: pin.value
   };
+  localStorage.setItem("focusUser_"+user.id, JSON.stringify(user));
+  localStorage.setItem("lastUser", user.id);
+  enterApp();
+}
 
-  window.showExisting = () => {
-    if (!localStorage.getItem("userProfile")) {
-      alert("No existing user found on this device");
-      return;
-    }
-    choiceBox.style.display = "none";
-    existingUserBox.style.display = "block";
-  };
+function signin(){
+  const pin = loginPin.value;
+  const keys = Object.keys(localStorage).filter(k=>k.startsWith("focusUser_"));
+  const found = keys.find(k=>JSON.parse(localStorage[k]).pin === pin);
+  if(!found) return alert("Wrong PIN");
+  localStorage.setItem("lastUser", found.replace("focusUser_",""));
+  enterApp();
+}
 
-  // NEW USER
-  window.createProfile = () => {
-    const name = nameInput.value.trim();
-    const intention = intentionInput.value.trim();
-    const pin = pinCreate.value.trim();
-
-    if (!name || !intention || pin.length !== 4) {
-      alert("Fill all fields correctly");
-      return;
-    }
-
-    const profile = {
-      userId: crypto.randomUUID(),   // REAL identity
-      name,
-      intention,
-      pin,
-      createdAt: Date.now()
-    };
-
-    localStorage.setItem("userProfile", JSON.stringify(profile));
-    enterApp();
-  };
-
-  // EXISTING USER
-  window.unlock = () => {
-    const profile = JSON.parse(localStorage.getItem("userProfile"));
-    if (!profile) return;
-
-    if (pinEnter.value !== profile.pin) {
-      alert("Wrong PIN");
-      return;
-    }
-
-    enterApp();
-  };
-
-  function enterApp() {
-    gate.style.display = "none";
-    app.style.display = "block";
-    console.log("User:", JSON.parse(localStorage.getItem("userProfile")));
-  }
-
-})();
+function enterApp(){
+  entryGate.classList.add("hidden");
+  plannerApp.classList.remove("hidden");
+}
