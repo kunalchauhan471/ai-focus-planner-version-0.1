@@ -5,33 +5,43 @@
 <title>Weekly Focus Planner</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
-<script src="auth.js"></script>
-
 </head>
 
 <body>
-  <!-- ENTRY GATE -->
-<div id="entryGate" class="container card" style="max-width:420px">
-  <h2 id="gateTitle">Welcome</h2>
 
-  <!-- FIRST TIME -->
-  <div id="firstTime">
+<!-- ================= ENTRY GATE (NEW FEATURE) ================= -->
+<div id="entryGate" class="container card" style="max-width:420px">
+
+  <h2>Welcome</h2>
+
+  <!-- CHOICE -->
+  <div id="choiceBox">
+    <button class="primary" onclick="showNew()">I’m New</button>
+    <button class="secondary" onclick="showExisting()" style="margin-top:10px">
+      I Already Use This
+    </button>
+  </div>
+
+  <!-- NEW USER -->
+  <div id="newUser" style="display:none">
     <input id="nameInput" placeholder="Your name">
     <textarea id="intentionInput" placeholder="What do you want to fix or focus on?"></textarea>
     <input id="pinCreate" type="password" maxlength="4" placeholder="Create 4-digit PIN">
-    <button class="primary" onclick="createProfile()">I Commit</button>
+    <button class="primary" onclick="createProfile()">Create & Enter</button>
   </div>
 
-  <!-- RETURNING -->
-  <div id="returning" style="display:none">
-    <p style="margin-bottom:8px">Enter your 4-digit PIN</p>
-    <input id="pinEnter" type="password" maxlength="4" placeholder="PIN">
+  <!-- EXISTING USER -->
+  <div id="existingUser" style="display:none">
+    <input id="pinEnter" type="password" maxlength="4" placeholder="Enter 4-digit PIN">
     <button class="primary" onclick="unlock()">Enter Planner</button>
   </div>
+
 </div>
+<!-- ============================================================ -->
 
+
+<!-- ================= YOUR ORIGINAL PLANNER (UNCHANGED) ================= -->
 <div class="container" id="plannerApp" style="display:none">
-
 
 <div class="progress"><div id="bar" class="progress-bar"></div></div>
 
@@ -51,7 +61,7 @@
 <!-- SLIDE 2 -->
 <div class="slide card">
 <h2>Add Weekly Goals</h2>
-<input id="goalInput" placeholder="Example: java unit 1">
+<input id="goalInput" placeholder="Example: Complete Unit 1">
 <button class="primary" onclick="addGoal()">Add Goal</button>
 <div id="goals"></div>
 <div class="nav">
@@ -101,7 +111,14 @@
 </div>
 
 </div>
+<!-- ===================================================================== -->
 
+
+<!-- YOUR ORIGINAL SCRIPT -->
 <script src="script.js"></script>
+
+<!-- ENTRY GATE LOGIC (NEW FILE) -->
+<script src="auth.js"></script>
+
 </body>
 </html>
