@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* Entry Gate Styling */
+/* ENTRY GATE STYLING */
 .entry-gate {
   min-height: 100vh;
   display: flex;
@@ -41,35 +41,34 @@
 .hidden { display: none; }
 </style>
 </head>
-
 <body>
 
-<!-- ================= ENTRY GATE ================= -->
+<!-- ENTRY GATE -->
 <div class="entry-gate" id="entryGate">
   <div class="entry-card">
     <h2>Welcome</h2>
     <p>Focus system for students</p>
 
     <div id="choice">
-      <button class="primary" onclick="showSignup()">New User</button>
-      <button class="secondary" onclick="showSignin()">Existing User</button>
+      <button class="primary" id="btnNewUser">New User</button>
+      <button class="secondary" id="btnExistingUser">Existing User</button>
     </div>
 
     <div id="signup" class="hidden">
       <input id="name" placeholder="Your name">
       <textarea id="intent" placeholder="Your intention"></textarea>
       <input id="pin" type="password" maxlength="4" placeholder="Create 4-digit PIN">
-      <button class="primary" onclick="signup()">Create & Enter</button>
+      <button class="primary" id="btnSignup">Create & Enter</button>
     </div>
 
     <div id="signin" class="hidden">
       <input id="loginPin" type="password" maxlength="4" placeholder="Enter PIN">
-      <button class="primary" onclick="signin()">Enter Planner</button>
+      <button class="primary" id="btnSignin">Enter Planner</button>
     </div>
   </div>
 </div>
 
-<!-- ================= PLANNER ================= -->
+<!-- PLANNER (UNCHANGED) -->
 <div class="container hidden" id="plannerApp">
 
 <div class="progress"><div id="bar" class="progress-bar"></div></div>
@@ -140,7 +139,7 @@
 
 </div>
 
-<script src="auth.js"></script>
 <script src="script.js"></script>
+<script src="auth.js" defer></script> <!-- defer ensures DOM loaded -->
 </body>
 </html>
